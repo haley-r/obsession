@@ -5,7 +5,11 @@ const URL = 'ws://localhost:5000/websocket'
 
 function GameBoard() {
     const [userColor, setUserColor] = useState('');
-    const [userScore, setUserScore] = useState(0);
+    const [ivoryScore, setIvoryScore] = useState(0);
+    const [brownScore, setBrownScore] = useState(0);
+
+    // const [userScore, setUserScore] = useState(0);
+
 
 
     const ws = new WebSocket(URL)
@@ -35,7 +39,12 @@ function GameBoard() {
         ws.onmessage = event => {
             // on receiving a message, add it to the list of messages
             const message = JSON.parse(event.data)
-            console.log('message is: ', message);
+            // console.log('message is: ', message);
+            if (message.type === 'score-update'){
+                console.log('message type is score update');
+                setBrownScore(message.brownScore);
+                setIvoryScore(message.ivoryScore);
+            }
             
             // this.addMessage(message)
         }
@@ -57,7 +66,10 @@ function GameBoard() {
             <button onClick={() => setColor('brown')}>Play as Brown</button>
 
             <h2>you're playing as: { userColor }</h2>
-            <h3>and your score is: { userScore } </h3>
+            {/* <h3>and your score is: { userScore } </h3> */}
+            <h2>ivoryScore: { ivoryScore }</h2>
+            <h2>brownScore: { brownScore }</h2>
+
 
             <p>make a move:</p>
             <button onClick={increaseScoreByOne}>increase score</button>
@@ -66,55 +78,3 @@ function GameBoard() {
 }
 
 export default GameBoard;
-
-
-
-
-// class Chat extends Component {
-//     state = {
-//         name: 'Bob',
-//         messages: [],
-//     }
-
-//.....
-
-//     addMessage = message =>
-//         this.setState(state => ({ messages: [message, ...state.messages] }))
-
-//     submitMessage = messageString => {
-//         // on submitting the ChatInput form, send the message, add it to the list and reset the input
-//         const message = { name: this.state.name, message: messageString }
-//         this.ws.send(JSON.stringify(message))
-//         this.addMessage(message)
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 <label htmlFor="name">
-//                     Name:&nbsp;
-//           <input
-//                         type="text"
-//                         id={'name'}
-//                         placeholder={'Enter your name...'}
-//                         value={this.state.name}
-//                         onChange={e => this.setState({ name: e.target.value })}
-//                     />
-//                 </label>
-//                 <ChatInput
-//                     ws={this.ws}
-//                     onSubmitMessage={messageString => this.submitMessage(messageString)}
-//                 />
-//                 {this.state.messages.map((message, index) =>
-//                     <ChatMessage
-//                         key={index}
-//                         message={message.message}
-//                         name={message.name}
-//                     />,
-//                 )}
-//             </div>
-//         )
-//     }
-// }
-
-// export default Chat
