@@ -35,6 +35,8 @@ function GameBoard() {
         ws.onmessage = event => {
             // on receiving a message, add it to the list of messages
             const message = JSON.parse(event.data)
+            console.log('message is: ', message);
+            
             // this.addMessage(message)
         }
 
