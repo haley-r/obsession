@@ -37,6 +37,8 @@ const wss = new WebSocket.Server({
 wss.on('connection', function (ws) {
     console.log('websocket connected');
     ws.on('message', function (data) {
+        console.log('data being sent to server: ', data);
+        
         wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
@@ -51,4 +53,6 @@ server.on('upgrade', async function upgrade(request, socket, head) {
         wss.emit('connection', ws, request)
     })
 })
+
+
 
