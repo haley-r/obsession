@@ -1,4 +1,5 @@
 import GameBoard from '../GameBoard/GameBoard'
+import Chat from '../Chat/Chat'
 // import './App.css';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
         <h1>Obsession</h1>
       </header>
       <GameBoard />
+      <Chat/>
     </div>
   );
 }
