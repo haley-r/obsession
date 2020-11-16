@@ -20,14 +20,17 @@ function GameBoard() {
     }
 
     const increaseScoreByOne =()=>{
-        console.log('hi from inside increasebyone');
-        
-        const move = { 
+        //send the 'move' to the server
+        // const move = { 
+        //     color: userColor,
+        //     type: "increase-score-by-1", 
+        //     value: 1 
+        // }
+        ws.send(JSON.stringify({
             color: userColor,
-            type: "increase-score-by-1", 
-            value: 1 
-        }
-        ws.send(JSON.stringify(move))
+            type: "increase-score-by-1",
+            value: 1
+        }))
     }
 
     useEffect(() => {
@@ -37,7 +40,7 @@ function GameBoard() {
         }
 
         ws.onmessage = event => {
-            // on receiving a message, add it to the list of messages
+            // on receiving a message, update things based on whats in the message
             const message = JSON.parse(event.data)
             // console.log('message is: ', message);
             if (message.type === 'score-update'){
