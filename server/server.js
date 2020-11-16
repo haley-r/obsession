@@ -21,10 +21,11 @@ const WebSocket = require('ws')
 //we also need to be able to serve the static files in the client folder
 const express = require('express')
 const app = express()
-const path = require('path')
+// const path = require('path')
 
-// idk about this!!
-app.use('/', express.static(path.resolve(__dirname, '../public')))
+// idk about this!! how to serve static files?
+// app.use('/', express.static(path.resolve(__dirname, '../public')))
+app.use(express.static('build'));
 
 //heroku would be PORT ENV ?
 const server = app.listen(5000)
@@ -36,6 +37,8 @@ const wss = new WebSocket.Server({
 let ivoryScore = 0;
 let brownScore = 0;
 
+let rooms = [];
+
 function addOne(color){
     console.log('made it here to addOne in server');
     if (color === 'ivory'){
@@ -44,6 +47,16 @@ function addOne(color){
         brownScore = brownScore + 1
     }
 }
+
+// // app.get('/', function (req, res, next) {
+// //     console.log('hey, inside get in server.js');
+    
+// // });
+
+// app.get('/', (req, res) => {
+//     console.log('in basic GET' );
+//     res.send({test: "hi"});
+// })
 
 wss.on('connection', function (ws) {
     console.log('websocket connected');
@@ -58,8 +71,11 @@ wss.on('connection', function (ws) {
                 }
             })
         }
+        //default
+        rooms.push(JSON.parse(data).roomName);
+        console.log('rooms: ', rooms);
         
-        
+
         // wss.clients.forEach(function each(client) {
         //     if (client !== ws && client.readyState === WebSocket.OPEN) {                
         //         client.send(JSON.stringify({ type: 'score-update', ivoryScore, brownScore}));
@@ -74,6 +90,3 @@ server.on('upgrade', async function upgrade(request, socket, head) {
         wss.emit('connection', ws, request)
     })
 })
-
-
-

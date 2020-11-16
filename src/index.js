@@ -44,11 +44,17 @@ const gameReducer = (state = {
 
 // sagas
 function* createRoom(action) {
+  console.log('got to the create room saga');
+  
   try {
-    const response = yield axios.get(`${API_BASE}/room?name=${action.roomName}`)
-    yield put({ type: "CREATE_ROOM_SUCCESS", payload: response.data });
+    const response = yield axios.get(`${API_BASE}/`)
+    console.log('response from basic get is: ', response);
+    
+    // yield put({ type: "CREATE_ROOM_SUCCESS", payload: response.data });
   } catch (error) {
-    yield put({ type: "CREATE_ROOM_ERROR", error });
+    console.log('error!', error);
+    
+    // yield put({ type: "CREATE_ROOM_ERROR", error });
   }
 }
 
