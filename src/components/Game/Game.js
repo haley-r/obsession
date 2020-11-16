@@ -17,10 +17,14 @@ function Game() {
 
     const createRoom=(input)=>{
         console.log('in createRoom with input: ', input);
-        ws.send(JSON.stringify({
-            roomName: input,
-        }))
-        
+        try {
+            ws.send(JSON.stringify({
+                roomName: input,
+            }))
+        } catch (error) {
+            console.log('error!', error);
+        }
+        dispatch({ type: 'SET_ROOM', payload: input})
     }
 
     return (

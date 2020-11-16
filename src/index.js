@@ -8,7 +8,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, take } from 'redux-saga/effects';
 
 // I don't know if this is needed/if http will be used for this project? 
 // but leaving it in just in case/to remind myself
@@ -23,12 +23,12 @@ const gameReducer = (state = {
                               username: null 
                             }, action) => {
   switch (action.type) {
-    case "CREATE_ROOM_SUCCESS":
+    case "SET_CURRENT_ROOM":
       state.room = action.payload;
       break;
-    case "JOIN_ROOM_SUCCESS":
-      state.room = action.payload;
-      break;
+    // case "JOIN_ROOM_SUCCESS":
+    //   state.room = action.payload;
+    //   break;
     case "SET_USERNAME":
       console.log('in set_username case with action: ', action);
       state.username = action.username;
@@ -43,34 +43,38 @@ const gameReducer = (state = {
 }
 
 // sagas
-function* createRoom(action) {
-  console.log('got to the create room saga');
+// function* createRoom(action) {
+//   console.log('got to the create room saga');
   
-  try {
-    const response = yield axios.get(`${API_BASE}/`)
-    console.log('response from basic get is: ', response);
+//   try {
+//     const response = yield axios.get(`${API_BASE}/`)
+//     console.log('response from basic get is: ', response);
     
-    // yield put({ type: "CREATE_ROOM_SUCCESS", payload: response.data });
-  } catch (error) {
-    console.log('error!', error);
+//     // yield put({ type: "CREATE_ROOM_SUCCESS", payload: response.data });
+//   } catch (error) {
+//     console.log('error!', error);
     
-    // yield put({ type: "CREATE_ROOM_ERROR", error });
-  }
-}
+//     // yield put({ type: "CREATE_ROOM_ERROR", error });
+//   }
+// }
 
-function* joinRoom(action) {
-  try {
-    const response = yield axios.get(`${API_BASE}/room/${action.roomId}`)
-    yield put({ type: "JOIN_ROOM_SUCCESS", payload: response.data });
-  } catch (error) {
-    yield put({ type: "JOIN_ROOM_ERROR", error });
-  }
-}
+// function* joinRoom(action) {
+//   try {
+//     const response = yield axios.get(`${API_BASE}/room/${action.roomId}`)
+//     yield put({ type: "JOIN_ROOM_SUCCESS", payload: response.data });
+//   } catch (error) {
+//     yield put({ type: "JOIN_ROOM_ERROR", error });
+//   }
+// }
 
+function* setRoom(action){
+    yield put({ type: "SET_CURRENT_ROOM", payload: action.payload });
+}
 
 function* watcherSaga() {
-  yield takeEvery('CREATE_ROOM', createRoom);
-  yield takeEvery('JOIN_ROOM', joinRoom);
+  // yield takeEvery('CREATE_ROOM', createRoom);
+  // yield takeEvery('JOIN_ROOM', joinRoom);
+  yield takeEvery('SET_ROOM', setRoom);
 }
 
 // make instance of saga middleware
