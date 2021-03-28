@@ -8,7 +8,7 @@ import GameBoard from '../GameBoard/GameBoard';
 const URL = 'ws://localhost:5000/websocket'
 
 
-function Game() {
+function Home() {
 
     let history = useHistory();
 
@@ -63,4 +63,4 @@ function Game() {
     );
 }
 
-export default Game;
+export default Home;

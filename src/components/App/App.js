@@ -1,4 +1,6 @@
-import Game from '../Game/Game'
+import Home from '../Game/Game'
+import GameBoard from '../GameBoard/GameBoard'
+
 import React, { useEffect } from 'react';
 // import './App.css';
 
@@ -43,11 +45,11 @@ function App() {
         </header>
       <Router>
         <Route exact path="/">
-          {/* <Game /> */}
+          <Home />
           {/* LANDING SCREEN/HOME */}
         </Route>
-        <Route path="/">
-          <Game />
+        <Route path="/:gameString">
+          <GameBoard />
           {/* FETCH PARTICULAR GAME */}
         </Route>
       </Router>

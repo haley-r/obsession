@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const URL = 'ws://localhost:5000/websocket'
 
 
 function GameBoard() {
+    const params = useParams();
+
     const [userColor, setUserColor] = useState('');
     const [ivoryScore, setIvoryScore] = useState(0);
     const [brownScore, setBrownScore] = useState(0);
@@ -65,6 +68,7 @@ function GameBoard() {
 
     return (
         <div>
+            <h1>{JSON.stringify(params)}</h1>
             <button onClick={()=>setColor('ivory')}>Play as Ivory</button>
             <button onClick={() => setColor('brown')}>Play as Brown</button>
 
