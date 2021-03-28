@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
+import { useHistory } from "react-router-dom";
+
 import GameBoard from '../GameBoard/GameBoard';
 
 const URL = 'ws://localhost:5000/websocket'
 
 
 function Game() {
+
+    let history = useHistory();
+
     const [createRoomInput, setCreateRoomInput] = useState("");
     const [joinRoomInput, setJoinRoomInput] = useState("");
     const currentRoom = useSelector(state => state.room);
@@ -17,6 +22,8 @@ function Game() {
 
     const createRoom=(input)=>{
         console.log('in createRoom with input: ', input);
+        history.push(`/${input}`);
+
         try {
             ws.send(JSON.stringify({
                 roomName: input,
@@ -26,6 +33,10 @@ function Game() {
         }
         dispatch({ type: 'SET_ROOM', payload: input})
     }
+
+    // function handleClick() {
+    //     history.push("/home");
+    // }
 
     return (
         <>
