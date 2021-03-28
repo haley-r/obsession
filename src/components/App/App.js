@@ -2,6 +2,11 @@ import Game from '../Game/Game'
 import React, { useEffect } from 'react';
 // import './App.css';
 
+import {
+  HashRouter as Router,
+  Route,
+} from 'react-router-dom';
+
 const URL = 'ws://localhost:5000/websocket'
 
 
@@ -36,7 +41,18 @@ function App() {
         <header className="App-header">
           <h1>Obsession</h1>
         </header>
-        <Game />
+      <Router>
+        <Route exact path="/">
+          {/* <Game /> */}
+          {/* LANDING SCREEN/HOME */}
+        </Route>
+        <Route path="/">
+          <Game />
+          {/* FETCH PARTICULAR GAME */}
+        </Route>
+      </Router>
+
+        {/* <Game /> */}
       </div>
   );
 }
